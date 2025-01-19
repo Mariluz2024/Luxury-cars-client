@@ -27,8 +27,8 @@ const Login = () => {
     try {
       const response = await axios.post("http://localhost:5000/api/auth/login", formData);
       setMessage(response.data.message);
-      console.log("User data:", response.data.user); // Aquí puedes manejar los datos del usuario
-      // Puedes guardar el token en localStorage o manejarlo según necesites:
+      console.log("User data:", response.data.user); //datos del usuario
+      //guardar el token en localStorage
       localStorage.setItem("token", response.data.token);
     } catch (error) {
       setMessage(
