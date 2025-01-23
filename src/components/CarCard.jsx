@@ -44,6 +44,18 @@ const CarCard = ({ car }) => {
         >
           View Details
         </button>
+        <button
+          className="mt-4 w-full bg-yellow-400 text-grey py-2 px-4 rounded-lg hover:bg-yellow-250 transition"
+          onClick={() => goToCarDetails(car)}
+        >
+            Mark as favorite
+        </button>
+        <button
+          className="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
+          onClick={() => goToCarDetails(car)}
+        >
+          Add to comparison list
+        </button>
       </div>
     </div>
   );
