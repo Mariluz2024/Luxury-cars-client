@@ -45,10 +45,10 @@ const ComparisonDetails = () => {
         method: "delete",
         url: `${API_BASE_URL}/comparisons/${comparisonId}/delete-car`,
         headers: {
-          "Content-Type": "application/json", // Explicitly set Content-Type
+          "Content-Type": "application/json",
         },
         data: {
-          carIdToRemove, // Include the carIdToRemove in the body
+          carIdToRemove,
         },
       };
 
