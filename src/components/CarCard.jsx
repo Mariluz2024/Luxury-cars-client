@@ -1,37 +1,57 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import axios from "axios";
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const CarCard = ({ car }) => {
   const navigate = useNavigate();
-  const goToCarDetails = (car) => navigate(`/cars/details`, { state: { car } });
+  const userId = "67898ae0d4c5bde01c0dc9dd";
 
-  const markAsFavorite = async (carId) => {
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  // Fetch user's favorite cars to determine if this car is a favorite
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/favorites/user/${userId}`
+        );
+
+        // Extract `carId` from each favorite and check if the current car is a favorite
+        const favoriteCars = response.data.map((fav) => fav.carId);
+        setIsFavorite(favoriteCars.includes(car._id));
+      } catch (error) {
+        console.error("Error fetching favorite cars:", error);
+      }
+    };
+
+    fetchFavorites();
+  }, [car._id]);
+
+  // Handle marking/unmarking as favorite
+  const toggleFavorite = async () => {
     try {
-      // Replace this with the actual user ID in your application
-      const userId = "67898ae0d4c5bde01c0dc9dd";
-
-      const response = await axios.post(`${API_BASE_URL}/favorites`, {
-        carId,
-        userId,
-      });
-
-      if (response.status === 201) {
-        alert("Car marked as favorite successfully!");
+      if (isFavorite) {
+        // Unmark as favorite
+        await axios.delete(`${API_BASE_URL}/favorites`, {
+          data: { carId: car._id, userId },
+        });
+        setIsFavorite(false);
+        alert("Car removed from favorites!");
       } else {
-        alert("Failed to mark car as favorite.");
+        // Mark as favorite
+        await axios.post(`${API_BASE_URL}/favorites`, { carId: car._id, userId });
+        setIsFavorite(true);
+        alert("Car marked as favorite!");
       }
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        alert("This car is already marked as favorite.");
-      } else {
-        console.error("Error marking as favorite:", error);
-        alert("An error occurred while marking as favorite.");
-      }
+      console.error("Error toggling favorite status:", error);
+      alert("An error occurred while updating favorite status.");
     }
   };
+
+  const goToCarDetails = (car) => navigate(`/cars/details`, { state: { car } });
 
   return (
     <div className="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
@@ -42,7 +62,7 @@ const CarCard = ({ car }) => {
       />
       <div className="p-4">
         <h2
-          className="text-lg font-bold text-blue-900"
+          className="text-lg font-bold text-blue-900 cursor-pointer"
           onClick={() => goToCarDetails(car)}
         >
           {car.name}
@@ -73,10 +93,14 @@ const CarCard = ({ car }) => {
           View Details
         </button>
         <button
-          className="mt-4 w-full bg-yellow-400 text-grey py-2 px-4 rounded-lg hover:bg-yellow-250 transition"
-          onClick={() => markAsFavorite(car._id)}
+          className={`mt-4 w-full ${
+            isFavorite
+              ? "bg-red-600 hover:bg-red-700"
+              : "bg-yellow-400 hover:bg-yellow-500"
+          } text-white py-2 px-4 rounded-lg transition`}
+          onClick={toggleFavorite}
         >
-          Mark as favorite
+          {isFavorite ? "Remove from favorites" : "Mark as favorite"}
         </button>
         <button
           className="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
