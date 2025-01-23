@@ -10,7 +10,6 @@ const CarCard = ({ car }) => {
 
   const [isFavorite, setIsFavorite] = useState(false);
 
-  // Fetch user's favorite cars to determine if this car is a favorite
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
@@ -18,7 +17,6 @@ const CarCard = ({ car }) => {
           `${API_BASE_URL}/favorites/user/${userId}`
         );
 
-        // Extract `carId` from each favorite and check if the current car is a favorite
         const favoriteCars = response.data.map((fav) => fav.carId);
         setIsFavorite(favoriteCars.includes(car._id));
       } catch (error) {
@@ -29,21 +27,19 @@ const CarCard = ({ car }) => {
     fetchFavorites();
   }, [car._id]);
 
-  // Handle marking/unmarking as favorite
   const toggleFavorite = async () => {
     try {
       if (isFavorite) {
-        // Unmark as favorite
         await axios.delete(`${API_BASE_URL}/favorites`, {
           data: { carId: car._id, userId },
         });
         setIsFavorite(false);
-        alert("Car removed from favorites!");
       } else {
-        // Mark as favorite
-        await axios.post(`${API_BASE_URL}/favorites`, { carId: car._id, userId });
+        await axios.post(`${API_BASE_URL}/favorites`, {
+          carId: car._id,
+          userId,
+        });
         setIsFavorite(true);
-        alert("Car marked as favorite!");
       }
     } catch (error) {
       console.error("Error toggling favorite status:", error);
