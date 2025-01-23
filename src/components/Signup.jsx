@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 import './Signup.css'
 
 const Signup = () => {
@@ -36,7 +38,7 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/signup", {
+      const response = await axios.post(`${API_BASE_URL}/auth/signup`, {
         nombre: formData.nombre,
         correo: formData.correo,
         password: formData.password,
@@ -48,6 +50,10 @@ const Signup = () => {
         password: "",
         confirmPassword: "",
       });
+
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
     } catch (err) {
       setError(err.response?.data?.message || "Error al registrar el usuario");
     } finally {

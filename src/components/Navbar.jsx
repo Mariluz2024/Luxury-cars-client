@@ -38,6 +38,30 @@ const Navbar = () => {
           </li>
           <li>
             <Link
+              to="/favorites"
+              className="hover:text-gray-200 transition duration-300"
+            >
+              Favorites
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/comparisons"
+              className="hover:text-gray-200 transition duration-300"
+            >
+              Comparisons
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/profile"
+              className="hover:text-gray-200 transition duration-300"
+            >
+              Profile
+            </Link>
+          </li>
+          <li>
+            <Link
               to="/signup"
               className="hover:text-gray-200 transition duration-300"
             >

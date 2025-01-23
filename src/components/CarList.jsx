@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 import CarCard from "./CarCard";
+
 
 const CarList = () => {
   const [cars, setCars] = useState([]);
@@ -10,7 +13,7 @@ const CarList = () => {
     // Fetch data from the API
     const fetchCars = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/cars");
+        const response = await fetch(`${API_BASE_URL}/cars`);
         if (!response.ok) {
           throw new Error("Failed to fetch cars");
         }

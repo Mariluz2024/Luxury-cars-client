@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 import './Login.css';
 
 const Login = () => {
@@ -25,11 +27,16 @@ const Login = () => {
     setMessage("");
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", formData);
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, formData);
       setMessage(response.data.message);
-      console.log("User data:", response.data.user); //datos del usuario
-      //guardar el token en localStorage
+
+      console.log("User data:", response.data.user);
+
       localStorage.setItem("token", response.data.token);
+
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 2000);
     } catch (error) {
       setMessage(
         error.response?.data?.message || "Error al iniciar sesión. Intenta nuevamente."
