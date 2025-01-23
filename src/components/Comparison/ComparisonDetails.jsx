@@ -25,12 +25,13 @@ const ComparisonDetails = () => {
         fetchComparison();
     }, [id]);
 
-    const onSelect = async (carId) => {
+    const onSelect = async (comparisonId, carIdSelected) => {
+        
         try {
-            await axios.post(`${API_BASE_URL}/comparisons/${id}/select`, { carId });
+            await axios.put(`${API_BASE_URL}/comparisons/${comparisonId}/select`, { carIdSelected });
             setComparison((prevComparison) => ({
                 ...prevComparison,
-                selected: carId,
+                selected: carIdSelected,
             }));
         } catch (err) {
             console.error("Failed to select car:", err);
@@ -48,7 +49,7 @@ const ComparisonDetails = () => {
     return (
         <div className="max-w-7xl mx-auto p-6">
             <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-                {comparison.name}
+                {comparison.name} - {comparison.selected}
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {comparison.carIds.map((car) => (
@@ -68,7 +69,7 @@ const ComparisonDetails = () => {
                         <p className="text-gray-600">Stock: {car.stock}</p>
                         {comparison.selected !== car._id && (
                             <button
-                                onClick={() => onSelect(car._id)}
+                                onClick={() => onSelect(comparison._id, car._id)}
                                 className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
                             >
                                 Select
