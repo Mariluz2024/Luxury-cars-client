@@ -5,7 +5,7 @@ const ComparisonCard = ({ comparison, onDelete }) => {
     return (
         <div className="flex items-center bg-white border border-gray-200 rounded-lg shadow-md p-4 mb-4">
             <div className="flex-1">
-                <h2 className="text-lg font-bold text-gray-900">
+                <h2 className="text-lg font-bold text-blue-900">
                     <Link to={{ pathname: `/comparisons/details/${comparison._id}`}}>
                         {comparison.name}
                     </Link>
