@@ -1,9 +1,37 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import axios from "axios";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const CarCard = ({ car }) => {
   const navigate = useNavigate();
   const goToCarDetails = (car) => navigate(`/cars/details`, { state: { car } });
+
+  const markAsFavorite = async (carId) => {
+    try {
+      // Replace this with the actual user ID in your application
+      const userId = "67898ae0d4c5bde01c0dc9dd";
+
+      const response = await axios.post(`${API_BASE_URL}/favorites`, {
+        carId,
+        userId,
+      });
+
+      if (response.status === 201) {
+        alert("Car marked as favorite successfully!");
+      } else {
+        alert("Failed to mark car as favorite.");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        alert("This car is already marked as favorite.");
+      } else {
+        console.error("Error marking as favorite:", error);
+        alert("An error occurred while marking as favorite.");
+      }
+    }
+  };
 
   return (
     <div className="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
@@ -46,9 +74,9 @@ const CarCard = ({ car }) => {
         </button>
         <button
           className="mt-4 w-full bg-yellow-400 text-grey py-2 px-4 rounded-lg hover:bg-yellow-250 transition"
-          onClick={() => goToCarDetails(car)}
+          onClick={() => markAsFavorite(car._id)}
         >
-            Mark as favorite
+          Mark as favorite
         </button>
         <button
           className="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
