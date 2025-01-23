@@ -1,22 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
-const CarDetailsPage = ({ car }) => {
-  if (!car) return <div className="p-4">Loading...</div>;
-
+const CarDetailsPage = () => {
+  const { state } = useLocation();
+  const [car, setCar] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isInComparison, setIsInComparison] = useState(false);
 
+  useEffect(() => {
+    if (state && state.car) {
+      setCar(state.car);
+    }
+  }, [state]);
+
   const toggleFavorite = () => setIsFavorite(!isFavorite);
   const toggleComparison = () => setIsInComparison(!isInComparison);
+
+  if (!car) return <div className="p-4">Loading...</div>;
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="bg-white border border-gray-200 rounded-lg shadow-md">
         <div className="p-4">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">{car.name}</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2 cursor-pointer">
+            {car.name}
+          </h2>
           <div className="flex">
             <img src={car.image} alt={car.name} className="w-1/2 h-64 object-cover rounded-lg mr-4" />
             <div>
+              <p className="text-gray-600 mb-1">Description: {car.description}</p>
               <p className="text-gray-600 mb-1">Price: ${car.price.toLocaleString()}</p>
               <p className="text-gray-600 mb-1">HP: {car.hp}</p>
               <p className="text-gray-600 mb-1">Model: {car.model}</p>

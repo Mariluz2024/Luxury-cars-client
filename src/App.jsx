@@ -9,6 +9,7 @@ import UserProfile from "./components/User/UserProfile";
 import UserFavoriteList from "./components/User/UserFavoriteList";
 import ComparisonList from "./components/Comparison/ComparisonList";
 import ComparisonDetails from "./components/Comparison/ComparisonDetails";
+import CarDetailsPage from "./components/Car/CarDetailsPage";
 
 const App = () => {
   const user = {
@@ -45,6 +46,10 @@ const App = () => {
           <Route
             path="/comparisons/details/:id"
             element={<ComparisonDetails />}
+          />
+          <Route
+            path="/cars/details"
+            element={<CarDetailsPage />}
           />
         </Routes>
       </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -9,6 +10,9 @@ const ComparisonDetails = () => {
   const [comparison, setComparison] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const goToCarDetails = (car) => navigate(`/cars/details`, { state: { car } });
 
   useEffect(() => {
     const fetchComparison = async () => {
@@ -78,7 +82,7 @@ const ComparisonDetails = () => {
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-        {comparison.name} - {comparison.selected}
+        {comparison.name}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {comparison.carIds.map((car) => (
@@ -95,7 +99,7 @@ const ComparisonDetails = () => {
               alt={car.name}
               className="w-full h-48 object-cover rounded-lg mb-4"
             />
-            <h2 className="text-lg font-bold text-gray-800">{car.name}</h2>
+            <h2 className="text-lg font-bold text-gray-800" onClick={goToCarDetails(car)}>{car.name}</h2>
             <p className="text-gray-600">
               Price: ${car.price.toLocaleString()}
             </p>
