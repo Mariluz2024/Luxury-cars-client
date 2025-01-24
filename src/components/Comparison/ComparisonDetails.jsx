@@ -29,6 +29,10 @@ const ComparisonDetails = () => {
     fetchComparison();
   }, [id]);
 
+  const onReserve = async () => {
+    alert('Reserve completed');
+  }
+
   const onSelect = async (comparisonId, carIdSelected) => {
     try {
       await axios.put(`${API_BASE_URL}/comparisons/${comparisonId}/select`, {
@@ -119,6 +123,12 @@ const ComparisonDetails = () => {
               className="mt-4 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
             >
               Delete
+            </button>
+            <button
+              onClick={() => onReserve()}
+              className="mt-4 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition"
+            >
+              Reserve
             </button>
           </div>
         ))}
