@@ -1,10 +1,14 @@
 import React from "react";
 
 import CarList from "./CarList";
+import Heading from "./Heading";
 
 const Home = () => {
   return (
-    <CarList />
+    <div>
+      <Heading />
+      <CarList />
+    </div>
   );
 };
 
