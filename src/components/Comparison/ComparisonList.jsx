@@ -12,9 +12,10 @@ const ComparisonList = () => {
   const [creating, setCreating] = useState(false);
 
   useEffect(() => {
+    const userId = localStorage.getItem('userId')
     const fetchComparisons = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/comparisons`);
+        const response = await axios.get(`${API_BASE_URL}/comparisons/user/${userId}`);
         setComparisons(response.data);
         setLoading(false);
       } catch (err) {
@@ -45,7 +46,7 @@ const ComparisonList = () => {
     setCreating(true);
 
     try {
-      const userId = "67898ae0d4c5bde01c0dc9dd";
+      const userId = localStorage.getItem('userId')
       const response = await axios.post(`${API_BASE_URL}/comparisons`, {
         name: newComparisonName,
         userId,

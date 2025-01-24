@@ -17,7 +17,7 @@ const Navbar = () => {
               to="/login"
               className="hover:text-gray-200 transition duration-300"
             >
-              Iniciar Sesión
+              Signin
             </Link>
           </li>
           <li>
@@ -49,7 +49,7 @@ const Navbar = () => {
               to="/signup"
               className="hover:text-gray-200 transition duration-300"
             >
-              Registrarse
+              Sign-up
             </Link>
           </li>
         </ul>

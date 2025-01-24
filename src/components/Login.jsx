@@ -30,8 +30,7 @@ const Login = () => {
       const response = await axios.post(`${API_BASE_URL}/auth/login`, formData);
       setMessage(response.data.message);
 
-      console.log("User data:", response.data.user);
-
+      localStorage.setItem("userId", response.data.user.id)
       localStorage.setItem("token", response.data.token);
 
       setTimeout(() => {

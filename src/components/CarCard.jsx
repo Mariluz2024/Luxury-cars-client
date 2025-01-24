@@ -6,7 +6,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const CarCard = ({ car }) => {
   const navigate = useNavigate();
-  const userId = "67898ae0d4c5bde01c0dc9dd";
+  const userId = localStorage.getItem('userId')
 
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
