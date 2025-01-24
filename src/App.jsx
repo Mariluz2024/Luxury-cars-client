@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -10,6 +15,15 @@ import UserFavoriteList from "./components/User/UserFavoriteList";
 import ComparisonList from "./components/Comparison/ComparisonList";
 import ComparisonDetails from "./components/Comparison/ComparisonDetails";
 import CarDetailsPage from "./components/Car/CarDetailsPage";
+
+// Mock user authentication
+const isAuthenticated = () => {
+  return localStorage.getItem("token") !== null; // Replace with your actual auth logic
+};
+
+const ProtectedRoute = ({ children }) => {
+  return isAuthenticated() ? children : <Navigate to="/login" />;
+};
 
 const App = () => {
   const user = {
@@ -28,28 +42,50 @@ const App = () => {
         {/* Main Routes */}
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          {/* Public Routes */}
+          <Route
+            path="/login"
+            element={isAuthenticated() ? <Navigate to="/" /> : <Login />}
+          />
+          <Route
+            path="/signup"
+            element={isAuthenticated() ? <Navigate to="/" /> : <Signup />}
+          />
           <Route path="/cars" element={<CarList />} />
+          <Route path="/cars/details" element={<CarDetailsPage />} />
+
+          {/* Protected Routes */}
           <Route
             path="/profile"
-            element={<UserProfile user={user} onUpdate={handleUpdate} />}
+            element={
+              <ProtectedRoute>
+                <UserProfile user={user} onUpdate={handleUpdate} />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/favorites"
-            element={<UserFavoriteList />}
+            element={
+              <ProtectedRoute>
+                <UserFavoriteList />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/comparisons"
-            element={<ComparisonList />}
+            element={
+              <ProtectedRoute>
+                <ComparisonList />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/comparisons/details/:id"
-            element={<ComparisonDetails />}
-          />
-          <Route
-            path="/cars/details"
-            element={<CarDetailsPage />}
+            element={
+              <ProtectedRoute>
+                <ComparisonDetails />
+              </ProtectedRoute>
+            }
           />
         </Routes>
       </div>
