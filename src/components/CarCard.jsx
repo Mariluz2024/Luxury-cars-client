@@ -9,6 +9,50 @@ const CarCard = ({ car }) => {
   const userId = "67898ae0d4c5bde01c0dc9dd";
 
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [comparisonLists, setComparisonLists] = useState([]);
+  const [selectedComparison, setSelectedComparison] = useState(null);
+
+  const fetchComparisonLists = async () => {
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/comparisons/user/${userId}`
+      );
+      setComparisonLists(response.data);
+    } catch (error) {
+      console.error("Error fetching comparison lists:", error);
+      alert("Failed to load comparison lists.");
+    }
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+    fetchComparisonLists();
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedComparison(null);
+  };
+
+  const addToComparison = async () => {
+    if (!selectedComparison) {
+      alert("Please select a comparison list.");
+      return;
+    }
+
+    try {
+      await axios.put(
+        `${API_BASE_URL}/comparisons/${selectedComparison}/add-car`,
+        { carId: car._id }
+      );
+      alert("Car added to the comparison list successfully!");
+      closeModal();
+    } catch (error) {
+      console.error("Error adding car to comparison list:", error);
+      alert("Failed to add car to the comparison list.");
+    }
+  };
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -99,12 +143,52 @@ const CarCard = ({ car }) => {
           {isFavorite ? "Remove from favorites" : "Mark as favorite"}
         </button>
         <button
-          className="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
-          onClick={() => goToCarDetails(car)}
+          className="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-500 transition"
+          onClick={openModal}
         >
-          Add to comparison list
+          Add to comparison list...
         </button>
       </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-lg">
+            <h2 className="text-lg font-bold mb-4 text-center">
+              Select a Comparison List
+            </h2>
+            <ul className="space-y-2">
+              {comparisonLists.map((list) => (
+                <li key={list._id}>
+                  <label className="flex items-center space-x-3">
+                    <input
+                      type="radio"
+                      name="comparison"
+                      value={list._id}
+                      onChange={() => setSelectedComparison(list._id)}
+                      className="form-radio text-blue-600"
+                    />
+                    <span>{list.name}</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-6 flex justify-between">
+              <button
+                onClick={closeModal}
+                className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={addToComparison}
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
