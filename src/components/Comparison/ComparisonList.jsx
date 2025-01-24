@@ -12,14 +12,15 @@ const ComparisonList = () => {
   const [creating, setCreating] = useState(false);
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId')
+    const userId = localStorage.getItem("userId");
     const fetchComparisons = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/comparisons/user/${userId}`);
+        const response = await axios.get(
+          `${API_BASE_URL}/comparisons/user/${userId}`
+        );
         setComparisons(response.data);
         setLoading(false);
       } catch (err) {
-        console.error(err);
         setError("Failed to load comparisons.");
         setLoading(false);
       }
@@ -46,7 +47,7 @@ const ComparisonList = () => {
     setCreating(true);
 
     try {
-      const userId = localStorage.getItem('userId')
+      const userId = localStorage.getItem("userId");
       const response = await axios.post(`${API_BASE_URL}/comparisons`, {
         name: newComparisonName,
         userId,
@@ -65,10 +66,6 @@ const ComparisonList = () => {
 
   if (loading) {
     return <p className="text-center text-gray-600">Loading comparisons...</p>;
-  }
-
-  if (error) {
-    return <p className="text-center text-red-600">{error}</p>;
   }
 
   return (

@@ -4,9 +4,13 @@ import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+const isAuthenticated = () => {
+  return localStorage.getItem("token") !== null;
+};
+
 const CarCard = ({ car }) => {
   const navigate = useNavigate();
-  const userId = localStorage.getItem('userId')
+  const userId = localStorage.getItem("userId");
 
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -132,22 +136,26 @@ const CarCard = ({ car }) => {
         >
           View Details
         </button>
-        <button
-          className={`mt-4 w-full ${
-            isFavorite
-              ? "bg-red-600 hover:bg-red-700"
-              : "bg-yellow-400 hover:bg-yellow-500"
-          } text-white py-2 px-4 rounded-lg transition`}
-          onClick={toggleFavorite}
-        >
-          {isFavorite ? "Remove from favorites" : "Mark as favorite"}
-        </button>
-        <button
-          className="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-500 transition"
-          onClick={openModal}
-        >
-          Add to comparison list...
-        </button>
+        {isAuthenticated() && (
+          <div>
+            <button
+              className={`mt-4 w-full ${
+                isFavorite
+                  ? "bg-red-600 hover:bg-red-700"
+                  : "bg-yellow-400 hover:bg-yellow-500"
+              } text-white py-2 px-4 rounded-lg transition`}
+              onClick={toggleFavorite}
+            >
+              {isFavorite ? "Remove from favorites" : "Mark as favorite"}
+            </button>
+            <button
+              className="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-500 transition"
+              onClick={openModal}
+            >
+              Add to comparison list...
+            </button>
+          </div>
+        )}
       </div>
 
       {isModalOpen && (

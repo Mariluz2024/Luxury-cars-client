@@ -16,9 +16,8 @@ import ComparisonList from "./components/Comparison/ComparisonList";
 import ComparisonDetails from "./components/Comparison/ComparisonDetails";
 import CarDetailsPage from "./components/Car/CarDetailsPage";
 
-// Mock user authentication
 const isAuthenticated = () => {
-  return localStorage.getItem("token") !== null; // Replace with your actual auth logic
+  return localStorage.getItem("token") !== null;
 };
 
 const ProtectedRoute = ({ children }) => {
