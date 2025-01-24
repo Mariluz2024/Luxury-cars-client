@@ -20,7 +20,8 @@ const UserFavoriteList = () => {
     const fetchFavorites = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`${API_BASE_URL}/favorites`, {
+        const userId = localStorage.getItem('userId')
+        const response = await axios.get(`${API_BASE_URL}/favorites/user/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

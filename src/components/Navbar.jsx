@@ -1,9 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-// Mock function to check if user is authenticated
 const isAuthenticated = () => {
-  return localStorage.getItem("token") !== null; // Replace with your actual authentication logic
+  return localStorage.getItem("token") !== null;
 };
 
 const Navbar = () => {
@@ -12,14 +11,11 @@ const Navbar = () => {
   return (
     <nav className="bg-blue-600 text-white fixed top-0 w-full shadow-lg z-50">
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
-        {/* Logo */}
         <div className="text-lg font-bold">
-          <Link to="/">MiSitio</Link>
+          <Link to="/">Luxury Cars</Link>
         </div>
 
-        {/* Menu */}
         <ul className="flex space-x-6">
-          {/* Show Sign-in and Sign-up only if not logged in */}
           {!loggedIn && (
             <>
               <li>
@@ -41,7 +37,6 @@ const Navbar = () => {
             </>
           )}
 
-          {/* Show authenticated links only if logged in */}
           {loggedIn && (
             <>
               <li>
