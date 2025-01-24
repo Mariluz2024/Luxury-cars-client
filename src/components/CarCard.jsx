@@ -42,7 +42,7 @@ const CarCard = ({ car }) => {
     }
 
     try {
-      await axios.put(
+      await axios.post(
         `${API_BASE_URL}/comparisons/${selectedComparison}/add-car`,
         { carId: car._id }
       );
