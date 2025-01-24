@@ -25,10 +25,6 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const App = () => {
-  const user = {
-    nombre: "John Doe",
-    correo: "johndoe@example.com",
-  };
 
   const handleUpdate = (updatedUser) => {
     console.log("Updated user:", updatedUser);
@@ -58,7 +54,7 @@ const App = () => {
             path="/profile"
             element={
               <ProtectedRoute>
-                <UserProfile user={user} onUpdate={handleUpdate} />
+                <UserProfile onUpdate={handleUpdate} />
               </ProtectedRoute>
             }
           />
