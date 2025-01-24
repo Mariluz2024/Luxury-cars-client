@@ -65,7 +65,8 @@ const CarCard = ({ car }) => {
           `${API_BASE_URL}/favorites/user/${userId}`
         );
 
-        const favoriteCars = response.data.map((fav) => fav.carId);
+        const favoriteCars = response.data.map((fav) => fav.carId._id);
+        
         setIsFavorite(favoriteCars.includes(car._id));
       } catch (error) {
         console.error("Error fetching favorite cars:", error);
