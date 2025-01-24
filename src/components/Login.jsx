@@ -30,7 +30,7 @@ const Login = () => {
       const response = await axios.post(`${API_BASE_URL}/auth/login`, formData);
       setMessage(response.data.message);
 
-      localStorage.setItem("userId", response.data.user.id)
+      localStorage.setItem("userId", response.data.user.id);
       localStorage.setItem("token", response.data.token);
 
       setTimeout(() => {
@@ -48,7 +48,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <h2>Iniciar Sesión</h2>
-      <form onSubmit={handleSubmit} className="login-form">
+      <form onSubmit={handleSubmit} className="login-form" autoComplete="off">
         <div className="form-group">
           <label htmlFor="correo">Correo Electrónico:</label>
           <input
@@ -58,6 +58,7 @@ const Login = () => {
             value={formData.correo}
             onChange={handleChange}
             required
+            autoComplete="new-email"
           />
         </div>
         <div className="form-group">
@@ -69,6 +70,7 @@ const Login = () => {
             value={formData.password}
             onChange={handleChange}
             required
+            autoComplete="new-password"
           />
         </div>
         <button type="submit" disabled={loading}>
